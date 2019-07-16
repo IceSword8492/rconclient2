@@ -1,0 +1,9 @@
+{
+    "plugindir": "./plugins",
+    "plugins": [],
+    "rconhost": "localhost",
+    "rconport": 25575,
+    "rconpass": "password",
+    "rcontimeout": 5000,
+    "loaded": false
+}
