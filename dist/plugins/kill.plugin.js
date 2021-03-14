@@ -5,6 +5,7 @@ module.exports = {
     usage: "helpを参照",          // usage
     description: "エンティティ(プレイヤー、Mob、アイテムなど)をキル(抹消)する",    // description
     exec: async ({line, rcon, settings, util}) => {
-        rcon.send(line).then(util.info).catch(util.error);
+        const response = await rcon.send(line).catch(util.error);
+        util.info(response);
     }
 };

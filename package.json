@@ -14,5 +14,7 @@
     "@types/node": "^12.6.3",
     "modern-rcon": "^1.0.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  }
 }

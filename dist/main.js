@@ -82,15 +82,19 @@ if (!settings.silent) {
 settings.plugins.sort((a, b) => ~~(a.name > b.name) * 2 - 1);
 util_1.default.info("loading completed: plugins");
 const rcon = new rcon_1.default(settings.rconhost, settings.rconport, settings.rconpass, settings.rcontimeout);
-const exec = (line) => {
-    settings.plugins.forEach((plugin) => {
+const exec = async (line) => {
+    for (const plugin of settings.plugins) {
         if (parser.parse(line)[0] === plugin.name) {
-            plugin.exec({ line, rcon, settings, util: util_1.default });
+            await plugin.exec({ line, rcon, settings, util: util_1.default });
         }
-    });
+    }
 };
 const reader = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-reader.on("line", (line) => exec(line));
+reader.on("line", async (line) => {
+    await exec(line);
+    reader.prompt();
+});
+reader.prompt();

@@ -27,6 +27,6 @@ class Rcon {
         });
     }
 }
-Rcon.ModernRcon = require("modern-rcon");
 exports.default = Rcon;
+Rcon.ModernRcon = require("modern-rcon");
 ;

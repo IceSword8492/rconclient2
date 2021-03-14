@@ -62,7 +62,6 @@ for (let i = 0; i < process.argv.length; i++)
 // define walk
 const walk = (dir: string): void =>
 {
-    
     let f = fs.readdirSync(dir, {withFileTypes: true});
     f.forEach((d: any, i: any, dirents: any): void => {
         if (d.isDirectory())
@@ -116,19 +115,25 @@ util.info("loading completed: plugins");
 const rcon = new Rcon(settings.rconhost, settings.rconport, settings.rconpass, settings.rcontimeout);
 
 // define exec
-const exec = (line: string): void => {
-    settings.plugins.forEach((plugin: any): void => {
+const exec = async (line: string): Promise<void> =>
+{
+    for (const plugin of settings.plugins as any) {
         if (parser.parse(line)[0] === plugin.name)
         {
-            plugin.exec({line, rcon, settings, util});
+            await plugin.exec({line, rcon, settings, util});
         }
-    });
+    }
 };
 
 // define reader
-const reader: any = readline.createInterface({
+const reader = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-reader.on("line", (line: string) => exec(line))
+reader.on("line", async (line: string) => {
+    await exec(line);
+    reader.prompt();
+});
+
+reader.prompt();
